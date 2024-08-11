@@ -1,9 +1,8 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/20/solid'
+import { StarIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
 import {
-    fetchAllProductsAsync,
     fetchBrandAsync,
     fetchCategoriesAsync,
     fetchProductsByFilterAsync,
@@ -15,6 +14,7 @@ import {
 } from '../productSLice';
 
 import Pagination from '../../common/Pagination';
+import { Grid } from "react-loader-spinner"
 
 import {
     Dialog,
@@ -33,6 +33,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 
 import { ITEMS_PER_PAGE } from '../../../app/constants';
+import { selectUserInfoStatus } from '../../user/userSlice';
 
 
 const sortOptions = [
@@ -57,6 +58,7 @@ export default function ProductList() {
     const [sort, setSort] = useState({})
     const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(true);
+    const status = useSelector(selectUserInfoStatus)
 
 
 
@@ -196,7 +198,7 @@ export default function ProductList() {
 
                                 {/* Product grid */}
                                 <div className="lg:col-span-3">
-                                    <ProductGrid products={products} />
+                                    <ProductGrid products={products} status={status} />
                                 </div>
                                 {/* product grid end */}
                             </div>
@@ -365,7 +367,7 @@ function DesktopFilter({ handleFilter, handleSort, filters, brands, }) {
     )
 }
 
-function ProductGrid({ products }) {
+function ProductGrid({ products, status }) {
 
     return (
         <>
@@ -376,6 +378,18 @@ function ProductGrid({ products }) {
                         <h2 className="text-2xl font-bold tracking-tight text-gray-900"></h2>
 
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                            {status === 'loading' ? (
+                                <Grid
+                                    height="80"
+                                    width="80"
+                                    color="rgb(79, 70, 229) "
+                                    ariaLabel="grid-loading"
+                                    radius="12.5"
+                                    wrapperStyle={{}}
+                                    wrapperClass=""
+                                    visible={true}
+                                />
+                            ) : null}
                             {products.map((product, index) => (
                                 <Link to={`/product-detail/${product.id}`} key={index}>
                                     <div className="group relative">

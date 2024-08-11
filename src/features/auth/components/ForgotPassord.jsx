@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkUserAsync, } from '../authSlice';
+import { loginUserAsync, } from '../authSlice';
 
 import { Link, Navigate } from "react-router-dom"
 import { useForm } from "react-hook-form"

@@ -39,14 +39,13 @@ function UserProfile() {
     }
 
 
-
-
-
     const handleAdd = (address) => {
         const newUser = { ...userInfo, addresses: [...userInfo.addresses, address] }
         dispatch(updateUserAsync(newUser))
         setShowAddressForm(false)
     }
+
+    console.log(userInfo)
 
 
     return (
@@ -208,7 +207,7 @@ function UserProfile() {
                                 <div className=" pb-12">
 
                                     <ul role="list" className="divide-y divide-gray-1000">
-                                        {userInfo.length > 0 && userInfo.addresses.map((address, index) => (
+                                        {userInfo && userInfo.length > 0 && userInfo.addresses.map((address, index) => (
                                             <li key={index} className="flex justify-between gap-x-6 py-5 px-5 border-solid border-2 border-gray-200">
                                                 <div className="flex min-w-0 gap-x-4 text-left">
 

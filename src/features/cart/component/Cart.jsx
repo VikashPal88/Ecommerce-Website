@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteItemFromCartAsync, selectItems, updateCartAsync } from '../cartSlice';
+import { deleteItemFromCartAsync, selectCartLoaded, selectItems, updateCartAsync } from '../cartSlice';
 import { Link, Navigate } from 'react-router-dom';
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
@@ -13,6 +13,7 @@ export default function Cart() {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(true)
     const items = useSelector(selectItems)
+    const cartLoaded = useSelector(selectCartLoaded)
 
     let totalAmount = Math.round(items.reduce((total, item) => total + (item.product.price * item.quantity), 0))
 
@@ -30,7 +31,7 @@ export default function Cart() {
 
     return (
         <>
-            {!items.length && <Navigate to="/" replace={true}></Navigate>}
+            {!items.length && cartLoaded && <Navigate to="/" replace={true}></Navigate>}
             <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h2 className='text-4xl font-bold'>Cart</h2>
                 <div className="mt-8">

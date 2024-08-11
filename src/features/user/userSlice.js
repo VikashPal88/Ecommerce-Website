@@ -12,16 +12,16 @@ const initialState = {
 
 export const fetchLoggedInUserAsync = createAsyncThunk(
   "counter/fetchLoggedInUser",
-  async (userId) => {
-    const response = await fetchLoggedInUser(userId);
+  async () => {
+    const response = await fetchLoggedInUser();
     return response.data;
   }
 );
 
 export const fetchLoggedInUserOrdersAsync = createAsyncThunk(
   "counter/fetchLoggedInUserOrders",
-  async (userId) => {
-    const response = await fetchLoggedInUserOrders(userId);
+  async () => {
+    const response = await fetchLoggedInUserOrders();
     return response.data;
   }
 );
@@ -82,7 +82,7 @@ export const counterSlice = createSlice({
 export const { increment } = counterSlice.actions;
 
 export const selectUserInfo = (state) => state.user.userInfo;
-
 export const selectUserOrders = (state) => state.user.userInfo.orders;
+export const selectUserInfoStatus = (state) => state.user.status;
 
 export default counterSlice.reducer;

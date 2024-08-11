@@ -1,16 +1,22 @@
-export function fetchLoggedInUser(userId) {
+export function fetchLoggedInUser() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/users/" + userId);
+    const response = await fetch("http://localhost:8080/users/own", {
+      headers: {
+        authorization: `${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
     const data = await response.json();
     resolve({ data });
   });
 }
 
-export function fetchLoggedInUserOrders(userId) {
+export function fetchLoggedInUserOrders() {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "http://localhost:8080/orders/?user=" + userId
-    );
+    const response = await fetch("http://localhost:8080/orders", {
+      headers: {
+        authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
     const data = await response.json();
     resolve({ data });
   });

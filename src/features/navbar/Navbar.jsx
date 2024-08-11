@@ -53,9 +53,8 @@ function NavBar({ children }) {
                                         </div>
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
-                                                {navigation
-                                                    .filter(item => item[userInfo.role])
-                                                    .map((item) => (
+                                                {navigation.map((item) =>
+                                                    item[userInfo.role] ? (
                                                         <Link
                                                             key={item.name}
                                                             to={item.link}
@@ -69,7 +68,8 @@ function NavBar({ children }) {
                                                         >
                                                             {item.name}
                                                         </Link>
-                                                    ))}
+                                                    ) : null
+                                                )}
                                             </div>
                                         </div>
                                     </div>

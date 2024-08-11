@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkUserAsync, selectError, selectLoggedInUser } from '../authSlice';
+import { loginUserAsync, selectError, selectLoggedInUser } from '../authSlice';
 
 import { Link, Navigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
-import { checkUser } from '../authAPI';
+
 
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const dispatch = useDispatch()
     const error = useSelector(selectError)
     const user = useSelector(selectLoggedInUser)
+
+    if (user) {
+        localStorage.setItem("token", JSON.stringify(user))
+    }
 
 
     return (
@@ -32,7 +36,7 @@ export default function Login() {
 
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form noValidate className="space-y-6" method="POST" onSubmit={handleSubmit((data) => {
-                            dispatch(checkUserAsync({ email: data.email, password: data.password, addresses: [] }))
+                            dispatch(loginUserAsync({ email: data.email, password: data.password, }))
                         })}>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 text-left">
@@ -76,7 +80,7 @@ export default function Login() {
                                         type="password"
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
-                                    {error && <p className='text-red-500'>{error.message}</p>}
+                                    {error && <p className='text-red-500'>{error || error.message}</p>}
                                 </div>
                             </div>
 

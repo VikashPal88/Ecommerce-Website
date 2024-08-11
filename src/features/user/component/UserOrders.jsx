@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchLoggedInUserOrdersAsync, selectUserInfo, selectUserOrders } from '../userSlice'
-import { selectLoggedInUser } from '../../auth/authSlice'
+import { fetchLoggedInUserOrdersAsync, selectUserInfoStatus, selectUserOrders } from '../userSlice'
+
+import { Grid } from 'react-loader-spinner'
 
 
 function UserOrders() {
     const dispatch = useDispatch()
-    const userInfo = useSelector(selectUserInfo)
-
     const orders = useSelector(selectUserOrders)
+    const status = useSelector(selectUserInfoStatus)
     useEffect(() => {
-        dispatch(fetchLoggedInUserOrdersAsync(userInfo.id))
-    }, [dispatch, userInfo.id,])
+        dispatch(fetchLoggedInUserOrdersAsync())
+    }, [dispatch])
 
 
 
@@ -99,6 +99,18 @@ function UserOrders() {
                     </div>
 
                 ))}
+                {status === 'loading' ? (
+                    <Grid
+                        height="80"
+                        width="80"
+                        color="rgb(79, 70, 229) "
+                        ariaLabel="grid-loading"
+                        radius="12.5"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                    />
+                ) : null}
             </div>
 
         </>

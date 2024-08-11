@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link, Navigate } from 'react-router-dom'
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
@@ -23,15 +23,11 @@ function Checkout() {
     const items = useSelector(selectItems)
 
 
-
-
-
     let totalAmount = Math.round(items.reduce((total, item) => total + (item.product.price * item.quantity), 0))
 
     let totalItemC = Math.round(items.reduce((total, item) => total + item.quantity, 0))
 
-    // const totalAmount = 1000
-    // const totalItemC = 5
+
 
     const handleQuantity = (e, item) => {
         dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }))
@@ -68,11 +64,29 @@ function Checkout() {
         // Todo: on server change the stock number of items
     }
 
+    console.log(user)
+
+    useEffect(() => {
+        console.log("Hello")
+    }, [dispatch, user, items])
+
 
     return (
         <>
             {!items.length && <Navigate to="/" replace={true}></Navigate>}
-            {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`} replace={true}></Navigate>}
+            {currentOrder && currentOrder.paymentMethod === "cash" && (
+                <Navigate
+                    to={`/order-success/${currentOrder.id}`}
+                    replace={true}>
+                </Navigate>)
+            }
+            {currentOrder && currentOrder.paymentMethod === "card" && (
+                <Navigate
+                    to={`/stripe-checkout/`}
+                    replace={true}>
+                </Navigate>)
+            }
+
             <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px:8'>
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                     <div className='lg:col-span-3 text-left'>

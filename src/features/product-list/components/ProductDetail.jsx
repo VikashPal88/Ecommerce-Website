@@ -50,7 +50,6 @@ export default function ProductDetail() {
     const items = useSelector(selectItems)
     const params = useParams()
     const productDetail = useSelector(selectProductById)
-    const user = useSelector(selectLoggedInUser)
     // const productDetail = { productDetails, breadcrumbs }
     // console.log(productDetail)
     const dispatch = useDispatch()
@@ -63,7 +62,7 @@ export default function ProductDetail() {
     const handleCart = (e) => {
         e.preventDefault()
         if (items.findIndex(item => item.product.id === productDetail.id) < 0) {
-            const newItem = { product: productDetail.id, quantity: 1, user: user.id }
+            const newItem = { product: productDetail.id, quantity: 1 }
             dispatch(addToCartAsync(newItem))
         } else {
             console.log("already addes")
